@@ -15,4 +15,9 @@ public class MessageUtil {
     System.out.println(message);
     return message;
   }
+  
+  public static void main(String args[]) {
+    (new MessageUtil("Howdy")).salutationMessage();
+  }
+  
 }
