@@ -10,9 +10,13 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
+      - echo "CODEBUILD_SRC_DIR_BuildArtifact=$CODEBUILD_SRC_DIR_BuildArtifact"
+      - echo "CODEBUILD_SRC_DIR=$CODEBUILD_SRC_DIR"
+      - echo Listing $CODEBUILD_SRC_DIR_BuildArtifact
+      - ls -l $CODEBUILD_SRC_DIR_BuildArtifact
+      - echo Listing $CODEBUILD_SRC_DIR
+      - ls -l $CODEBUILD_SRC_DIR
       - docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
-#      - docker build -t cr-repo-for-codepipeline:7032893d398c1ef0a2b1dc6502db839a51ef5478 .
-#      - docker tag cr-repo-for-codepipeline:7032893d398c1ef0a2b1dc6502db839a51ef5478 895313708771.dkr.ecr.eu-west-1.amazonaws.com/cr-repo-for-codepipeline:7032893d398c1ef0a2b1dc6502db839a51ef5478      
       - echo "docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION"
       - docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
   post_build:
