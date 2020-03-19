@@ -12,8 +12,8 @@ phases:
       - echo Building the Docker image...          
       - echo "CODEBUILD_SRC_DIR_BuildArtifact=$CODEBUILD_SRC_DIR_BuildArtifact"
       - echo "CODEBUILD_SRC_DIR=$CODEBUILD_SRC_DIR"
-      - echo Listing $CODEBUILD_SRC_DIR_BuildArtifact
-      - ls -ltr $CODEBUILD_SRC_DIR_BuildArtifact
+      - echo Listing everything
+      - ls -ltr /
       - echo Listing $CODEBUILD_SRC_DIR
       - ls -ltr $CODEBUILD_SRC_DIR
       - docker build -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
