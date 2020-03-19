@@ -12,9 +12,6 @@ phases:
       - echo Building the Docker image...          
       - echo "CODEBUILD_SRC_DIR_BuildArtifact=$CODEBUILD_SRC_DIR_BuildArtifact"
       - echo "CODEBUILD_SRC_DIR=$CODEBUILD_SRC_DIR"
-      - echo Listing everything
-      - ls -R /
-      - find . -name  "*.jar"
       - echo Listing $CODEBUILD_SRC_DIR
       - ls -ltr $CODEBUILD_SRC_DIR
       - docker build --build-var BUILD_DIR=$CODEBUILD_SRC_DIR_BuildArtifact -t $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
