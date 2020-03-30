@@ -10,19 +10,20 @@ phases:
       - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - echo "CODEBUILD_SRC_DIR_BuildArtifact=$CODEBUILD_SRC_DIR_BuildArtifact"
+#      - echo "CODEBUILD_SRC_DIR_BuildArtifact=$CODEBUILD_SRC_DIR_BuildArtifact"
       - echo "CODEBUILD_SRC_DIR=$CODEBUILD_SRC_DIR"
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
       - pwd
-      - cp $CODEBUILD_SRC_DIR_BuildArtifact/target/*.jar ./
-      - docker build --build-arg BUILD_ARTIFACT=$(ls messageUtil*.jar) -t $REPOSITORY_URI:latest .
+      - aws cp $ARTIFACT_BUCKET/myUploadedArtifact-${SourceVariables.CommitId} ./
+      - ls ./
+      - unzip ./myUploadedArtifact-${SourceVariables.CommitId} ./
+      - ls ./
+      - docker build --build-arg BUILD_ARTIFACT=target/$(ls messageUtil*.jar) -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-      #- docker tag $IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
   post_build:
-      #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
